@@ -1,2 +1,0 @@
-# sdphaye.github.io
-portfolio
