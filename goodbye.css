@@ -70,7 +70,7 @@
   
   a:focus,
   a:hover {
-    color: #f09228;
+    color: #FFF;
     text-decoration: none;
   }
   
@@ -148,11 +148,18 @@ html {
 }
 
 body {
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-image: url("1145374.jpg");
     padding: 0;
     margin: 0;
-    height: auto;
-    width: 100%;
+    /* width: 100%; */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #000;
 }
 
 b {

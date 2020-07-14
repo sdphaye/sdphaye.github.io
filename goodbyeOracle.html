@@ -27,9 +27,9 @@
                   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
                      <tbody>
                         <tr style="padding:0px">
-                           <td style="padding:2.5%;width:63%;vertical-align:middle">
-                              <p style="text-align:center">
-                                 <name>Goodbye Oracle :)</name>
+                           <td style="padding:2.5%;width:63%;vertical-align:middle;">
+                              <p style="text-align:center; background-color: #FFF;">
+                                 <name>Goodbye, Oracle :)</name>
                               </p>
                               
                            </td>
@@ -41,7 +41,9 @@
                      <tbody>
                         <tr>
                            <td style="padding:20px;width:100%;vertical-align:middle; text-align: center">
-                              <h2>Here's a fun xkcd comic for you (refresh the page for a different comic)</h2>
+                              <h2 style="background-color: #FFF;">Here's a fun xkcd comic for you (refresh the page for a different comic)</h2>
+                              <br>
+                              <h3 style="background-color: #FFF;" id="imgLink-title"> </h3>
                               <p><img id="imgLink" src="" alt="img"></p>
                               
                            </td>
@@ -59,13 +61,13 @@
                                 
                                         <div class="content-section-grid clearfix">
                                         
-                                        <a href="#" class="button nav-link">
+                                        <a href="https:\\sdphaye.github.io" class="button nav-link">
                                 
                                           <div class="bottom"></div>
                                 
                                           <div class="top">
                                 
-                                          <div class="label">Visit My Site</div>
+                                          <div class="label">Home</div>
                                             
                                                 <div class="button-border button-border-left"></div>
                                               <div class="button-border button-border-top"></div>
@@ -75,10 +77,33 @@
                                           </div>
                                 
                                             </a>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+
+                                            <a href="https://xkcd.com/" class="button nav-link">
+                                
+                                                <div class="bottom"></div>
+                                      
+                                                <div class="top">
+                                      
+                                                <div class="label">XKCD</div>
+                                                  
+                                                      <div class="button-border button-border-left"></div>
+                                                    <div class="button-border button-border-top"></div>
+                                                    <div class="button-border button-border-right"></div>
+                                                      <div class="button-border button-border-bottom"></div>
+                                      
+                                                </div>
+                                      
+                                                  </a>
+                                            
                                 
                                         </div>
                                 
                                        </div>
+
+                                       
                                 
                                       </div>
                                 
@@ -86,6 +111,8 @@
                                 
                                
                             </td>
+
+                            
                             
                          </tr>
                      </tbody>
@@ -100,6 +127,7 @@
     var imgLink = "http://imgs.xkcd.com/comics/"+links[random]+".png";
     console.log(imgLink);  
     document.getElementById("imgLink").src = imgLink;
+    document.getElementById("imgLink-title").innerHTML = links[random];
     console.log(imgLink);  
     </script> 
 </html>
