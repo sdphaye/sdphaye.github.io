@@ -51,7 +51,7 @@
 			data.forEach(function (d) {
 				d.label = labels[d.date];
 
-				scalar = 12  //d.size;
+				scalar = 24  //d.size;
 				d.us = d.us * scalar;
 				d.italy = d.italy * scalar;
 				d.india = d.india * scalar;
@@ -111,7 +111,7 @@
 			// Append a caption:
 			d3.select('.figure2').append('figcaption')
 				.attr('class', 'caption')
-				.html('The Areas of the blue, red, &amp; black wedges are each measured from the centre as the common vertex <p> The blue wedges measured from the centre of the circle represent area for area the deaths in United States, the red wedges measured from the center the deaths in Italy, &amp; the black wedges measured from the center the deaths in India. </p><p> In March 2020, the effect of early lockdown can vbe witnessed (lesser mortalities in subsequent months) &amp United States suffered more deaths due to late lockdown initiation. </p><p> The entire areas may be compared by following the blue, the red &amp; the black lines enclosing them.</p>');
+				.html('The Areas of the blue, red, &amp; black wedges are each measured from the centre as the common vertex <p> The blue wedges measured from the centre of the circle represent area for area the deaths in United States, the red wedges measured from the center the deaths in Italy, &amp; the black wedges measured from the center the deaths in India. </p><p> In March 2020, the effect of early lockdown can be witnessed (lesser mortalities in subsequent months) &amp United States suffered more deaths due to late lockdown initiation. </p><p> The entire areas may be compared by following the blue, the red &amp; the black lines enclosing them.</p>');
 
 			// Create a legend:
 			Chart.legend(countries);
