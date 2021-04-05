@@ -5,7 +5,8 @@
 	<meta charset="utf-8">
 	<title>Nightingale's Rose</title>
 	<!-- Stylesheets -->
-	<link href="https://fonts.googleapis.com/css?family=Cabin:500" rel='stylesheet' type='text/css'>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="source_files/reset.css">
 	<link rel="stylesheet" type="text/css" href="source_files/style.css">
 	<!-- Libraries -->
@@ -50,8 +51,6 @@
 			data.forEach(function (d) {
 				d.label = labels[d.date];
 
-				// Calculate the average annual mortality, as done by Nightingale:
-				// http://understandinguncertainty.org/node/214 
 				scalar = 12  //d.size;
 				d.us = d.us * scalar;
 				d.italy = d.italy * scalar;
