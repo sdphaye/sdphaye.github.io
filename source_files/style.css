@@ -101,15 +101,15 @@ h1 {
 	font-size: 8px;
 }
 
-.us {
+.US {
 	fill: #66CCFF;
 }
 
-.india {
+.India {
 	fill: #222222;
 }
 
-.italy {
+.Italy {
 	fill: #A40802;
 }
 
@@ -132,4 +132,43 @@ h1 {
 	margin: 0 auto;
 	left: 155px; /* hacky */
 	top: -100px;
+}
+
+
+.sideText1{
+	width: 200px;
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	left: 10px; /* hacky */
+	top: -80px;
+	text-align: center;
+	font-family: 'Roboto Mono', monospace;
+ 	font-size: 14px;
+ 	fill: #474747;
+ 	font-weight: normal;
+}
+
+
+.toggler{
+	width: 200px;
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	left: 155px; /* hacky */
+	top: -100px;
+}
+
+.sideText2{
+	width: 200px;
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	left: 320px; /* hacky */
+	top: -125px;
+	text-align: center;
+	font-family: 'Roboto Mono', monospace;
+ 	font-size: 14px;
+ 	fill: #474747;
+ 	font-weight: normal;
 }

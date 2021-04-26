@@ -3,12 +3,23 @@
 
 <head>
 	<meta charset="utf-8">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157716686-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-157716686-1');
+	</script>
+
 	<title>Nightingale's Rose</title>
 	<!-- Stylesheets -->
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="source_files/reset.css">
 	<link rel="stylesheet" type="text/css" href="source_files/style.css">
+	<link rel="icon" type="image/png" href="images/seal_icon.png">
 	<!-- Libraries -->
 	<script type="text/javascript" src="source_files/d3.min.js"></script>
 	<!-- Scripts -->
@@ -24,103 +35,124 @@
 		-->
 
 	<script type="text/javascript">
-		var rose = Chart.rose(),
-			height = 600,
-			countries = ['us', 'italy', 'india'],
-			labels = { "3A2020": "Mar ‘20", "3B2020": "Mar ‘20", "4A2020": "Apr ‘20", "4B2020": "Apr ‘20", "5A2020": "May ‘20", "5B2020": "May ‘20", "6A2020": "Jun ‘20", "6B2020": "Jun ‘20", "7A2020": "Jul ‘20", "7B2020": "Jul ‘20", "8A2020": "Aug ‘20", "8B2020": "Aug ‘20", "9A2020": "Sep ‘20", "9B2020": "Sep ‘20", "10A2020": "Oct ‘20", "10B2020": "Oct ‘20", "11A2020": "Nov ‘20", "11B2020": "Nov ‘20", "12A2020": "Dec ‘20", "12B2020": "Dec ‘20", "1A2021": "Jan ‘21", "1B2021": "Jan ‘21", "2A2021": "Feb ‘21", "2B2021": "Feb ‘21" };
 
-		// Add a title:
-		d3.select('body').append('h2')
-			.attr('class', 'title')
-			.html('COVID-19 DEATHS <span class="small">(calculated annual)<br>in</span> United States, Italy <span class="small">and</span> India <span class="small">over</span><br> March 2020 - February 2021 <span class="small">(fortnightly)</span>');
 
-		// Add sub-titles:
-		d3.select('body').append('h3')
-			.attr('class', 'subtitle left')
-			.html('September 2020 - February 2021');
+		var myLoader = function (toggle = false) {
+			var rose = Chart.rose(),
+				height = 600,
+				countries = ['US', 'Italy', 'India'],
+				labels = { "3A2020": "Mar ‘20", "3B2020": "Mar ‘20", "4A2020": "Apr ‘20", "4B2020": "Apr ‘20", "5A2020": "May ‘20", "5B2020": "May ‘20", "6A2020": "Jun ‘20", "6B2020": "Jun ‘20", "7A2020": "Jul ‘20", "7B2020": "Jul ‘20", "8A2020": "Aug ‘20", "8B2020": "Aug ‘20", "9A2020": "Sep ‘20", "9B2020": "Sep ‘20", "10A2020": "Oct ‘20", "10B2020": "Oct ‘20", "11A2020": "Nov ‘20", "11B2020": "Nov ‘20", "12A2020": "Dec ‘20", "12B2020": "Dec ‘20", "1A2021": "Jan ‘21", "1B2021": "Jan ‘21", "2A2021": "Feb ‘21", "2B2021": "Feb ‘21" };
 
-		d3.select('body').append('h3')
-			.attr('class', 'subtitle right')
-			.html('March 2020 - August 2020');
+			// Add a title:
+			d3.select('body').append('h2')
+				.attr('class', 'title')
+				.html('COVID-19 DEATHS <span class="small">(calculated annual)<br>in</span> United States, Italy <span class="small">and</span> India <span class="small">over</span><br> March 2020 - February 2021 <span class="small">(fortnightly)</span>');
 
-		// Load the JSON data:
-		d3.json('source_files/data_covid.json', function (data) {
+			// Add sub-titles:
+			d3.select('body').append('h3')
+				.attr('class', 'subtitle left')
+				.html('September 2020 - February 2021');
 
-			// Format the date and rework the data:
-			var scalar;
-			data.forEach(function (d) {
-				d.label = labels[d.date];
+			d3.select('body').append('h3')
+				.attr('class', 'subtitle right')
+				.html('March 2020 - August 2020');
 
-				scalar = 24  //d.size;
-				d.us = d.us * scalar;
-				d.italy = d.italy * scalar;
-				d.india = d.india * scalar;
+			// Load the JSON data:
+
+
+			d3.json('source_files/data_covid.json', function (data) {
+
+				// Format the date and rework the data:
+				var scalar;
+				data.forEach(function (d) {
+					d.label = labels[d.date];
+
+					scalar = 24  //d.size;
+					if (toggle == false) {
+						d.us = d.US * scalar;
+						d.italy = d.Italy * scalar;
+						d.india = d.India * scalar;
+					} else {
+						d.us = d.us_per * scalar;
+						d.italy = d.italy_per * scalar;
+						d.india = d.india_per * scalar;
+					}
+				});
+
+				// Get the maximum value:
+				var maxVal = d3.max(data, function (d) {
+					return d3.max([d.us, d.italy, d.india]);
+				});
+
+				// Where the maximum value gives us the maximum radius:
+				var maxRadius = Math.sqrt(maxVal * 12 * (toggle ? 1.6 : 1) / Math.PI);
+
+				// Divide the dataset in two:
+				var dataset2 = data.slice(12, 24),
+					dataset1 = data.slice(0, 12);
+
+				// Append a new figure to the DOM:
+				figure = d3.select('body')
+					.append('figure');
+
+				// Get the figure width:
+				width = parseInt(figure.style('width'), 10);
+
+				// Update the chart generator settings:
+				rose.legend(countries)
+					.width(width)
+					.height(height)
+					.delay(0)
+					.duration(500)
+					.domain([0, maxRadius])
+					.angle(function (d) { return d.key; })
+					.area(function (d, i) { return [d.us, d.italy, d.india]; });
+
+
+				// Bind the data and generate a new chart:
+				figure.datum(dataset1)
+					.attr('class', 'chart figure1')
+					.call(rose);
+
+				// Append a new figure to the DOM:
+				figure = d3.select('body')
+					.append('figure');
+
+				// Get the figure width:
+				width = parseInt(figure.style('width'), 10);
+
+				// Update the chart generator settings:
+				rose.width(width)
+					.delay(3000);
+
+				// Bind the second dataset and generate a new chart:
+				figure.datum(dataset2)
+					.attr('class', 'chart figure2')
+					.call(rose);
+
+				// Append a caption:
+				d3.select('.figure2').append('figcaption')
+					.attr('class', 'caption')
+					.html('The Areas of the blue, red, &amp; black wedges are each measured from the centre as the common vertex <p> The blue wedges measured from the centre of the circle represent area for area the deaths in United States, the red wedges measured from the center the deaths in Italy, &amp; the black wedges measured from the center the deaths in India. </p><p> In March 2020, the effect of early lockdown can be witnessed (lesser mortalities in subsequent months) &amp United States suffered more deaths due to late lockdown initiation. </p><p> The entire areas may be compared by following the blue, the red &amp; the black lines enclosing them.</p> However, we can also see that switching to deaths per million, Italy has suffered an insurmountable loss.');
+
+				// Create a legend:
+				Chart.legend(countries);
+
+				// Create a slider:
+				Chart.slider(0, data.length, 1); // minVal, maxVal, step
+
+				Chart.addtext("Total<br>Deaths", "sideText1");
+				Chart.toggler(toggle ? 1 : 0);
+				Chart.addtext("Deaths<br>Per Million", "sideText2")
+
 			});
-
-			// Get the maximum value:
-			var maxVal = d3.max(data, function (d) {
-				return d3.max([d.us, d.italy, d.india]);
-			});
-
-			// Where the maximum value gives us the maximum radius:
-			var maxRadius = Math.sqrt(maxVal * 12 / Math.PI);
-
-			// Divide the dataset in two:
-			var dataset2 = data.slice(12, 24),
-				dataset1 = data.slice(0, 12);
-
-			// Append a new figure to the DOM:
-			figure = d3.select('body')
-				.append('figure');
-
-			// Get the figure width:
-			width = parseInt(figure.style('width'), 10);
-
-			// Update the chart generator settings:
-			rose.legend(countries)
-				.width(width)
-				.height(height)
-				.delay(0)
-				.duration(500)
-				.domain([0, maxRadius])
-				.angle(function (d) { return d.key; })
-				.area(function (d, i) { return [d.us, d.italy, d.india]; });
+		};
 
 
-			// Bind the data and generate a new chart:
-			figure.datum(dataset1)
-				.attr('class', 'chart figure1')
-				.call(rose);
 
-			// Append a new figure to the DOM:
-			figure = d3.select('body')
-				.append('figure');
-
-			// Get the figure width:
-			width = parseInt(figure.style('width'), 10);
-
-			// Update the chart generator settings:
-			rose.width(width)
-				.delay(3000);
-
-			// Bind the second dataset and generate a new chart:
-			figure.datum(dataset2)
-				.attr('class', 'chart figure2')
-				.call(rose);
-
-			// Append a caption:
-			d3.select('.figure2').append('figcaption')
-				.attr('class', 'caption')
-				.html('The Areas of the blue, red, &amp; black wedges are each measured from the centre as the common vertex <p> The blue wedges measured from the centre of the circle represent area for area the deaths in United States, the red wedges measured from the center the deaths in Italy, &amp; the black wedges measured from the center the deaths in India. </p><p> In March 2020, the effect of early lockdown can be witnessed (lesser mortalities in subsequent months) &amp United States suffered more deaths due to late lockdown initiation. </p><p> The entire areas may be compared by following the blue, the red &amp; the black lines enclosing them.</p>');
-
-			// Create a legend:
-			Chart.legend(countries);
-
-			// Create a slider:
-			Chart.slider(0, data.length, 1); // minVal, maxVal, step
-
-		});
-
+	</script>
+	<script>
+		myLoader();
 	</script>
 </body>
 
